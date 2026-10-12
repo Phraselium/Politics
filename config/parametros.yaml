@@ -1,0 +1,67 @@
+# Parámetros del análisis. Todo cálculo lee de aquí.
+# estado_verificacion: "primaria" = contrastado en la web del organismo emisor;
+#                      "secundaria_pendiente" = tomado de prensa que cita al organismo; debe confirmarse en fuente primaria antes de la Fase 4.
+version: 0.1
+fecha_generacion: 2026-10-12
+
+eleccion:
+  tipo: generales
+  fecha: 2026-11-29
+  norma_convocatoria: "Real Decreto 806/2026, de disolución del Congreso y del Senado y de convocatoria de elecciones"
+  boe_publicacion: 2026-10-06
+  campana: {inicio: 2026-11-13, fin: 2026-11-27}
+  constitucion_cortes: 2026-12-23
+  escanos_congreso: 350
+  estado_verificacion: secundaria_pendiente   # confirmar en boe.es
+
+fechas_corte:
+  # Propuesta, a confirmar por el usuario
+  programas: 2026-11-12          # víspera de campaña; programas publicados después → "PENDIENTE" y se registran en changelog
+  encuestas: 2026-11-23          # último día de publicación permitido (art. 69.7 LOREG)
+  datos_macro: 2026-11-12
+
+encuestas:
+  metodo_media: "media simple de la última oleada de cada empresa con campo dentro de los 21 días previos a la fecha de corte; mínimo 5 empresas"
+  # Snapshot provisional (2026-10-12). Solo se registran cifras localizadas; el resto, no disponible.
+  registros:
+    - {empresa: "NC Report", medio: "La Razón", fin_campo: 2026-10-06, muestra: "no disponible",
+       voto: {PP: 34.1, PSOE: 25.0, Vox: 18.2, Sumar: 5.3, Podemos: 3.9}, fuente: "brujula29n.com/encuestas (agregador)", estado_verificacion: secundaria_pendiente}
+    - {empresa: "Sigma Dos", medio: "El Mundo", fin_campo: 2026-10-01, muestra: "no disponible",
+       voto: {PP: 32.6, PSOE: 25.6, Vox: 18.3, Sumar: 6.6, Podemos: 3.3}, fuente: "brujula29n.com/encuestas (agregador)", estado_verificacion: secundaria_pendiente}
+    - {empresa: "40dB", medio: "El País / Cadena SER", fin_campo: 2026-10-09, muestra: "no disponible",
+       voto: {Sumar: 5.3, Podemos: 2.3, SALF: 1.8}, escanos: {PP: "123-140", PSOE: "105-117", Sumar: "5-7", Podemos: "2"},
+       fuente: "electografica.com/2026/10/encuesta-40db-261009.html", estado_verificacion: secundaria_pendiente}
+    - {empresa: "Data10", medio: "OKDiario", fin_campo: 2026-10-05, muestra: "no disponible",
+       voto: {Podemos: 4.3, SALF: 1.4}, escanos: {Podemos: 4}, fuente: "electografica.com/2026/10/encuesta-data10-261005.html", estado_verificacion: secundaria_pendiente}
+  suma_pp_vox_escanos_reportada: {Ipsos: 196, GAD3: 202, 40dB: 198, SocioMetrica: 205, NC_Report: "206-210"}
+  cis: "Barómetro de septiembre 2026 da ventaja al PSOE (5,5 p.); se registrará como serie separada, no entra en la media (método de estimación distinto)."
+  media_vigente: no disponible   # se calcula al cierre de la fecha de corte
+
+macro:
+  pib_nominal_referencia:
+    anio: 2025
+    valor_meur: 1690012
+    fuente: "INE, Contabilidad Nacional Anual, revisión estadística 2024 (sept. 2026), vía eldiario.es"
+    estado_verificacion: secundaria_pendiente
+  umbral_0_1_pct_pib_meur: 1690      # calculado: valor_meur * 0.001
+  pib_proyeccion:  # para expresar costes plurianuales; a rellenar con AIReF/Comisión
+    2026: no disponible
+    2027: no disponible
+  crecimiento_real:
+    2025: {valor: 2.6, fuente: "INE CNA sept. 2026", estado_verificacion: secundaria_pendiente}
+    2026: {valor: 2.5, fuente: "AIReF, informe julio 2026", estado_verificacion: secundaria_pendiente}
+    2027: {valor: 2.1, fuente: "AIReF, informe julio 2026", estado_verificacion: secundaria_pendiente}
+  deficit_aapp_pct_pib:
+    2026: {valor: 2.6, nota: "2,2 excluido gasto DANA y borrascas", fuente: "AIReF, julio 2026", estado_verificacion: secundaria_pendiente}
+  deuda_aapp_pct_pib:
+    2026: {valor: 99.3, fuente: "AIReF, julio 2026", estado_verificacion: secundaria_pendiente}
+  regla_gasto_ue:
+    marco: "Reglamento (UE) 2024/1263 — Plan Fiscal-Estructural de Medio Plazo de España"
+    senda_gasto_neto_comprometida: no disponible   # tasas anuales a tomar del Plan y de la Recomendación del Consejo
+    desviacion_proyectada_airef_2026: {valor: "+1,7 p.p. sobre previsión del Gobierno (crec. gasto neto 6,4 %)", fuente: "AIReF, julio 2026", estado_verificacion: secundaria_pendiente}
+    clausula_escape_defensa: "activada (alcance a confirmar)"
+
+supuestos:
+  - "Coste estático evaluado con la PIB nominal 2025; costes plurianuales en % del PIB del año de plena aplicación cuando haya proyección oficial."
+  - "Efectos dinámicos solo con evidencia empírica citada; se reportan aparte."
+  - "La composición de candidaturas de izquierda (Sumar/Frente Amplio/Podemos) se fija tras el plazo de coaliciones (16-10-2026) y la proclamación de candidaturas."
