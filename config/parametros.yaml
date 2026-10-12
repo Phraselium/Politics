@@ -14,14 +14,27 @@ eleccion:
   escanos_congreso: 350
   estado_verificacion: secundaria_pendiente   # confirmar en boe.es
 
+unidad_analisis:
+  tipo: candidatura_proclamada          # no el partido; lista cerrada tras la proclamación de candidaturas (BOE)
+  lista_cerrada: false
+  regla_coaliciones: "Se analiza el programa común de la candidatura; si un partido integrante (p. ej. Compromís, Más Madrid) publica programa propio, se señalan las diferencias medida a medida en el campo 'difiere_integrante'."
+  criterio_inclusion: "escaño en 2023 o >=1 escaño en la media de encuestas vigente"
+
 fechas_corte:
-  # Propuesta, a confirmar por el usuario
-  programas: 2026-11-12          # víspera de campaña; programas publicados después → "PENDIENTE" y se registran en changelog
-  encuestas: 2026-11-23          # último día de publicación permitido (art. 69.7 LOREG)
+  pasada_completa:
+    fecha_ejecucion: 2026-11-13
+    programas_publicados_hasta: 2026-11-12
+    encuestas: "media disponible a 2026-11-13"
+  pasada_actualizacion:
+    fecha_ejecucion: 2026-11-23
+    alcance:
+      - "incorporar programas publicados entre 2026-11-13 y 2026-11-23, marcados 'tardio: true'"
+      - "recalcular solo el eje de viabilidad parlamentaria con la media de encuestas a 2026-11-23"
+      - "registrar cambios en /salida/changelog.md"
   datos_macro: 2026-11-12
 
 encuestas:
-  metodo_media: "media simple de la última oleada de cada empresa con campo dentro de los 21 días previos a la fecha de corte; mínimo 5 empresas"
+  metodo_media: "media simple de la última oleada de cada empresa con fin de campo dentro de los 21 días previos a la fecha de corte; objetivo mínimo 5 empresas; si hay menos, se usan las disponibles y se declara el número en el informe"
   # Snapshot provisional (2026-10-12). Solo se registran cifras localizadas; el resto, no disponible.
   registros:
     - {empresa: "NC Report", medio: "La Razón", fin_campo: 2026-10-06, muestra: "no disponible",
